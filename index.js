@@ -73,6 +73,40 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/toy-details/:toyId', async (req, res) => {
+            const toyId = req.params.toyId;
+            const result = await toyCollection.findOne({ _id: new ObjectId(toyId) });
+            res.send(result);
+        });
+
+        app.get('/updating-my-toy/:toyId', async (req, res) => {
+            const toyId = req.params.toyId;
+            const result = await toyCollection.findOne({ _id: new ObjectId(toyId) });
+            res.send(result);
+        });
+
+        app.post('/update-my-toy/:toyId', async (req, res) => {
+            const toyId = req.params.toyId;
+            const updateToyData = req.body;
+            const query = { _id: new ObjectId(toyId) };
+            const option = { upsert: true };
+            const updateToy = {
+                $set: {
+                    seller_name: updateToyData.seller_name,
+                    email: updateToyData.email,
+                    category: updateToyData.category,
+                    name: updateToyData.name,
+                    image: updateToyData.image,
+                    price: updateToyData.price,
+                    quantity: updateToyData.quantity,
+                    rating: updateToyData.rating,
+                    description: updateToyData.description
+                }
+            }
+            const result = await toyCollection.updateOne(query, updateToy, option);
+            res.send(result);
+        });
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
