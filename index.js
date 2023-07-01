@@ -53,6 +53,26 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/all-toy', async (req, res) => {
+            const result = await toyCollection.find().toArray();
+            res.send(result);
+        });
+
+        app.get('/my-toy/:userEmail', async (req, res) => {
+            const userEmail = req.params.userEmail;
+            if (userEmail) {
+                const result = await toyCollection.find({ email: userEmail }).toArray();
+                res.send(result);
+            } else {
+                res.status(404).send('User email not found');
+            }
+        });
+
+        app.get('/my-toy', async (req, res) => {
+            const result = await toyCollection.find().toArray();
+            res.send(result);
+        });
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
