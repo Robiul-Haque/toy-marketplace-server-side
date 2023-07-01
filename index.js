@@ -107,6 +107,25 @@ async function run() {
             res.send(result);
         });
 
+        app.delete('/delete-my-toy/:toyId', async (req, res) => {
+            const toyId = req.params.toyId;
+            const query = { _id: new ObjectId(toyId) };
+            const result = await toyCollection.deleteOne(query);
+            res.send(result);
+        });
+
+        app.get('/toy-details/:toyId', async (req, res) => {
+            const toyId = req.params.toyId;
+            const result = await toyCollection.findOne({ _id: new ObjectId(toyId) });
+            res.send(result);
+        });
+
+        app.post('/add-toy', async (req, res) => {
+            const addToyData = req.body;
+            const result = await toyCollection.insertOne(addToyData);
+            res.send(result);
+        });
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
