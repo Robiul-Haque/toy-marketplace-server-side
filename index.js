@@ -40,7 +40,12 @@ async function run() {
         const toyCollection = toyDB.collection("toy");
 
 
-        
+        app.get('/toy/:activeTab', async (req, res) => {
+            const activeTab = req.params.activeTab;
+            console.log(activeTab);
+            const result = await toyCollection.find({ category: activeTab }).toArray();
+            res.send(result);
+        });
 
     } finally {
         // Ensures that the client will close when you finish/error
