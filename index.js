@@ -47,6 +47,12 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/toy-car-details/:toyId', async (req, res) => {
+            const toyId = req.params.toyId;
+            const result = await toyCollection.findOne({ _id: new ObjectId(toyId) });
+            res.send(result);
+        });
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
